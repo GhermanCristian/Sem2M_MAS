@@ -3,7 +3,7 @@ import java.io.Serializable;
 public class GameState implements Serializable {
     public final static int DEFAULT_PLAYER_COUNT = 3;
     public Board board;
-    public int playerCount = DEFAULT_PLAYER_COUNT;
+    public int totalPlayerCount = DEFAULT_PLAYER_COUNT;
 
     public GameState() {
         this.board = new Board();

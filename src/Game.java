@@ -6,14 +6,11 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Game {
 
-    private void createAgentController(ContainerController containerController, int playerCount) {
-        Object[] GMArguments = new Object[playerCount];
-        for (int i = 0; i < playerCount; i++) {
+    private void createAgentController(ContainerController containerController, int totalPlayerCount) {
+        Object[] GMArguments = new Object[totalPlayerCount];
+        for (int i = 0; i < totalPlayerCount; i++) {
             GMArguments[i] = new AID(String.valueOf(i + 1), AID.ISLOCALNAME);
         }
         try {
@@ -24,12 +21,22 @@ public class Game {
         }
     }
 
-    private void createComputerPlayers(ContainerController containerController, int playerCount) {
-        List<AgentController> computerPlayersController = new ArrayList<>();
-        for (int i = 0; i < playerCount; i++) {
+    private void createHumanPlayers(ContainerController containerController, int humanPlayerCount) {
+        for (int i = 0; i < humanPlayerCount; i++) {
             try {
-                computerPlayersController.add(containerController.createNewAgent(String.valueOf(i + 1), "ComputerPlayer", null));
-                computerPlayersController.get(i).start();
+                AgentController agent = containerController.createNewAgent(String.valueOf(i + 1), "HumanPlayer", null);
+                agent.start();
+            } catch (StaleProxyException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void createComputerPlayers(ContainerController containerController, int totalPlayerCount, int humanPlayerCount) {
+        for (int i = 0; i < totalPlayerCount - humanPlayerCount; i++) {
+            try {
+                AgentController agent = containerController.createNewAgent(String.valueOf(humanPlayerCount + i + 1), "ComputerPlayer", null);
+                agent.start();
             } catch (StaleProxyException e) {
                 throw new RuntimeException(e);
             }
@@ -43,8 +50,10 @@ public class Game {
         profile.setParameter(Profile.GUI, "false");
         ContainerController containerController = runtime.createMainContainer(profile);
 
-        int playerCount = 5;
-        this.createAgentController(containerController, playerCount);
-        this.createComputerPlayers(containerController, playerCount);
+        int totalPlayerCount = 5;
+        int humanPlayersCount = 2;
+        this.createAgentController(containerController, totalPlayerCount);
+        this.createHumanPlayers(containerController, humanPlayersCount);
+        this.createComputerPlayers(containerController, totalPlayerCount, humanPlayersCount);
     }
 }

@@ -19,18 +19,18 @@ public class GameControllerAgent extends Agent {
             for (Object argument : arguments) {
                 this.computerPlayers.add((AID) argument);
             }
-            this.gameState.playerCount = arguments.length;
+            this.gameState.totalPlayerCount = arguments.length;
         }
     }
 
     private void increasePlayerIndex() {
-        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.gameState.playerCount;
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.gameState.totalPlayerCount;
     }
 
     protected void setup() {
         this.gameState = new GameState();
         this.setPlayers();
-        this.currentPlayerIndex = new Random().nextInt(this.gameState.playerCount);
+        this.currentPlayerIndex = new Random().nextInt(this.gameState.totalPlayerCount);
         addBehaviour(new SendGameStartToAllPlayersBehaviour());
         addBehaviour(new SendGameStateToOnePlayerBehaviour(this.currentPlayerIndex));
     }
