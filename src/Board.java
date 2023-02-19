@@ -39,7 +39,19 @@ public class Board implements Serializable {
     }
 
     public void print() {
+        System.out.print("    ");
         for (int i = 0; i < BOARD_SIZE; i++) {
+            System.out.printf("%02d ", i);
+        }
+        System.out.println();
+        System.out.print("    ");
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            System.out.print("== ");
+        }
+        System.out.println();
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            System.out.printf("%02d| ", i);
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (this.board[i][j] == EMPTY_POSITION) {
                     System.out.print("__ ");
