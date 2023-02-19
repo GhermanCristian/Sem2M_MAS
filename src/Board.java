@@ -15,6 +15,10 @@ public class Board implements Serializable {
         }
     }
 
+    public static boolean inside(int i, int j) {
+        return (i >= 0 && i < Board.BOARD_SIZE && j >= 0 && j < Board.BOARD_SIZE);
+    }
+
     public int get(int x, int y) {
         if (0 <= x && x < BOARD_SIZE && 0 <= y && y < BOARD_SIZE) {
             return this.board[x][y];
@@ -47,16 +51,20 @@ public class Board implements Serializable {
         }
     }
 
-    public List<Coordinates> getEmptyPositions() {
+    public List<Coordinates> getPositionsWithValue(int value) {
         List<Coordinates> emptyPositions = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                if (board[i][j] == EMPTY_POSITION) {
+                if (board[i][j] == value) {
                     emptyPositions.add(new Coordinates(i, j));
                 }
             }
         }
         return emptyPositions;
+    }
+
+    public List<Coordinates> getEmptyPositions() {
+        return this.getPositionsWithValue(EMPTY_POSITION);
     }
 
     public boolean isFull() {

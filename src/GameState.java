@@ -9,15 +9,11 @@ public class GameState implements Serializable {
         this.board = new Board();
     }
 
-    private boolean inside(int i, int j) {
-        return (i >= 0 && i < Board.BOARD_SIZE && j >= 0 && j < Board.BOARD_SIZE);
-    }
-
     private boolean checkFromPosition(int i, int j, int currentValue) {
         int consecutive = 1;
         // vertical line below
         for (int k = 1; k < 3; k++) {
-            if (this.inside(i + k, j) && board.get(i + k, j) == currentValue) {
+            if (Board.inside(i + k, j) && board.get(i + k, j) == currentValue) {
                 consecutive++;
             }
         }
@@ -28,7 +24,7 @@ public class GameState implements Serializable {
         // horizontal line to the right
         consecutive = 1;
         for (int k = 1; k < 3; k++) {
-            if (this.inside(i, j + k) && board.get(i, j + k) == currentValue) {
+            if (Board.inside(i, j + k) && board.get(i, j + k) == currentValue) {
                 consecutive++;
             }
         }
@@ -39,7 +35,7 @@ public class GameState implements Serializable {
         // diagonal towards bottom-right
         consecutive = 1;
         for (int k = 1; k < 3; k++) {
-            if (this.inside(i + k, j + k) && board.get(i + k, j + k) == currentValue) {
+            if (Board.inside(i + k, j + k) && board.get(i + k, j + k) == currentValue) {
                 consecutive++;
             }
         }
@@ -50,7 +46,7 @@ public class GameState implements Serializable {
         // diagonal towards bottom-left
         consecutive = 1;
         for (int k = 1; k < 3; k++) {
-            if (this.inside(i + k, j - k) && board.get(i + k, j - k) == currentValue) {
+            if (Board.inside(i + k, j - k) && board.get(i + k, j - k) == currentValue) {
                 consecutive++;
             }
         }
