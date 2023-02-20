@@ -9,48 +9,27 @@ public class GameState implements Serializable {
         this.board = new Board();
     }
 
-    private boolean checkFromPosition(int i, int j, int currentValue) {
+    private boolean checkFromPositionOnDirection(int i, int j, int currentValue, final int DIRECTION_X, final int DIRECTION_Y) {
         int consecutive = 1;
-        // vertical line below
         for (int k = 1; k < 3; k++) {
-            if (Board.inside(i + k, j) && board.get(i + k, j) == currentValue) {
-                consecutive++;
-            }
-        }
-        if (consecutive == 3) {
-            return true;
-        }
-
-        // horizontal line to the right
-        consecutive = 1;
-        for (int k = 1; k < 3; k++) {
-            if (Board.inside(i, j + k) && board.get(i, j + k) == currentValue) {
-                consecutive++;
-            }
-        }
-        if (consecutive == 3) {
-            return true;
-        }
-
-        // diagonal towards bottom-right
-        consecutive = 1;
-        for (int k = 1; k < 3; k++) {
-            if (Board.inside(i + k, j + k) && board.get(i + k, j + k) == currentValue) {
-                consecutive++;
-            }
-        }
-        if (consecutive == 3) {
-            return true;
-        }
-
-        // diagonal towards bottom-left
-        consecutive = 1;
-        for (int k = 1; k < 3; k++) {
-            if (Board.inside(i + k, j - k) && board.get(i + k, j - k) == currentValue) {
+            if (Board.inside(i + k * DIRECTION_X, j + k * DIRECTION_Y) && board.get(i + k * DIRECTION_X, j + k * DIRECTION_Y) == currentValue) {
                 consecutive++;
             }
         }
         return consecutive == 3;
+    }
+
+    private boolean checkFromPosition(int i, int j, int currentValue) {
+        final int[] DIRECTIONS_X = {1, 0, 1, 1};
+        final int[] DIRECTIONS_Y = {0, 1, 1, -1};
+
+        for (int k = 0; k < DIRECTIONS_X.length; k++) {
+            boolean tempResult = this.checkFromPositionOnDirection(i, j, currentValue, DIRECTIONS_X[k], DIRECTIONS_Y[k]);
+            if (tempResult) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isFinished() {
