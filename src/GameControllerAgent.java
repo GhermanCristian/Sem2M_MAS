@@ -17,6 +17,7 @@ public class GameControllerAgent extends Agent {
         this.computerPlayers = new ArrayList<>();
         if (arguments != null && arguments.length > 0) {
             for (Object argument : arguments) {
+                System.out.println(argument); // do NOT remove this
                 this.computerPlayers.add((AID) argument);
             }
             this.gameState.totalPlayerCount = arguments.length;
