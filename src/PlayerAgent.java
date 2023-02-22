@@ -23,7 +23,7 @@ public abstract class PlayerAgent extends Agent {
         super.takeDown();
     }
 
-    protected class ReceiveGameStartMessageFromGameController extends OneShotBehaviour {
+    private class ReceiveGameStartMessageFromGameController extends OneShotBehaviour {
         @Override
         public void action() {
             ACLMessage message = myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
@@ -34,7 +34,7 @@ public abstract class PlayerAgent extends Agent {
         }
     }
 
-    protected class ReceiveGameEndMessageFromGameController extends OneShotBehaviour {
+    private class ReceiveGameEndMessageFromGameController extends OneShotBehaviour {
         @Override
         public void action() {
             ACLMessage message = myAgent.blockingReceive(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
@@ -46,7 +46,7 @@ public abstract class PlayerAgent extends Agent {
         }
     }
 
-    protected class ReceiveGameStateMessageFromGameController extends OneShotBehaviour {
+    private class ReceiveGameStateMessageFromGameController extends OneShotBehaviour {
         private void sendMessage(Coordinates currentCoordinates) {
             ACLMessage gameStateMessage = new ACLMessage(ACLMessage.INFORM);
             gameStateMessage.addReceiver(gameControllerAID);

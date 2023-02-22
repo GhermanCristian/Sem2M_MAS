@@ -48,6 +48,7 @@ public class Game {
         Profile profile = new ProfileImpl();
         profile.setParameter(Profile.MAIN_HOST, "localhost");
         profile.setParameter(Profile.GUI, "false");
+        profile.setParameter(Profile.CONTAINER_NAME, "TTT");
         ContainerController containerController = runtime.createMainContainer(profile);
 
         int totalPlayerCount = 5;
